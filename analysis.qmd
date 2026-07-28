@@ -1,0 +1,320 @@
+---
+title: "NES"
+author: "Copilot"
+format: html
+execute:
+  echo: false
+---
+
+## Wisdom
+
+The goal is to understand how the 1992 presidential vote differed by sex.
+
+```{r}
+#| label: Last
+#| cache: true
+#| message: false
+library(tidyverse)
+library(primer.data)
+library(scales)
+
+nes_92 <- nes |>
+  filter(year == 1992) |>
+  select(sex, pres_vote) |>
+  drop_na() |>
+  mutate(pres_vote = as.factor(case_when(
+    pres_vote == "Democrat"    ~ "Clinton",
+    pres_vote == "Republican"  ~ "Bush",
+    pres_vote == "Third Party" ~ "Perot")))
+
+nes_92
+```
+
+```{r}
+#| label: plot-sex-vote
+library(tidyverse)
+library(ggplot2)
+library(scales)
+
+nes_92 |>
+  count(sex, pres_vote) |>
+  group_by(sex) |>
+  mutate(prop = n / sum(n)) |>
+  ggplot(aes(x = sex, y = prop, fill = pres_vote)) +
+  geom_col(position = "dodge") +
+  scale_y_continuous(labels = percent_format(accuracy = 1)) +
+  labs(
+    x = "Sex",
+    y = "Share of vote",
+    fill = "Candidate",
+    title = "Vote share by sex in 1992"
+  ) +
+  theme_minimal()
+```
+
+### Exercise 1
+In my own words, Wisdom means starting with a clear question, identifying the relevant data, and using careful reasoning to connect the data to a useful answer without overclaiming.
+
+### Exercise 2
+A Preceptor Table is a simplified data table that includes only the units, the outcome, and the covariates needed to answer the question of interest.
+
+### Exercise 3
+The analysis tibble was built with the requested filtering, selection, missing-data removal, and recoding from party labels to candidate names.
+
+### Exercise 4
+The code above plots the share of each candidate’s vote within each sex and labels the y-axis as a percentage.
+
+### Exercise 5
+In general, a Preceptor Table has units, one or more outcomes, and one or more covariates. The units are the things being studied, the outcomes are the variables we want to predict, and the covariates are the characteristics we use to explain or compare them.
+
+### Exercise 6
+The units are the individual voters who cast a ballot for Clinton, Bush, or Perot in the 1992 election.
+
+### Exercise 7
+The outcome variable is the reported presidential vote, recorded as Clinton, Bush, or Perot.
+
+### Exercise 8
+A useful covariate would be party identification, because it often helps explain voting behavior.
+
+### Exercise 9
+There are no treatments in this problem; the analysis compares groups defined by sex rather than imposing an intervention.
+
+### Exercise 10
+The Preceptor Table refers to the moment of the 1992 election, when the vote was cast.
+
+### Exercise 11
+The Preceptor Table for this problem has one row for each voter who chose Clinton, Bush, or Perot, with the outcome equal to the vote choice and the covariate equal to sex.
+
+### Exercise 12
+The 1992 election was a three-way contest, and the patterns of voting by sex show that men and women reported different candidate preferences. Using data from the American National Election Studies, we examine whether the probability of voting for Perot differed between men and women in that election.
+
+## Justice
+
+Justice focuses on whether the data and the model are appropriate for making inferences about the population and the Preceptor Table.
+
+```{r}
+#| label: justice-setup
+#| message: false
+library(tidymodels)
+library(broom)
+```
+
+### Exercise 1
+Validity means that the variables in the data really measure the concepts they are supposed to represent.
+
+### Exercise 2
+One reason validity might not hold is that the outcome variable is based on self-reported vote recall, which can be inaccurate.
+
+### Exercise 3
+A Population Table is a table of all the relevant unit/time combinations in the population, not just the sampled rows or the rows described by the question.
+
+### Exercise 4
+The rows are the individual voters in the 1992 presidential election, with one row for each voter in the population and the data sample.
+
+### Exercise 5
+Stability means that the relationship between the covariate and the outcome is similar across the relevant contexts and time periods.
+
+### Exercise 6
+Stability might not hold if the relationship between sex and vote choice changed across the election period or across different survey conditions.
+
+### Exercise 7
+Representativeness means that the data are a reasonable sample of the population so that conclusions about the population are credible.
+
+### Exercise 8
+Representativeness might not hold if the ANES respondents differ from the full electorate in important ways, such as turnout or willingness to participate.
+
+### Exercise 9
+Representativeness might also fail when the population and the Preceptor Table differ in composition, even if they share the same broad time frame.
+
+### Exercise 10
+Because the outcome has three unordered categories, the correct probability family is a multinomial distribution.
+
+### Exercise 11
+For a multinomial outcome, the link function is the multinomial logit link.
+
+### Exercise 12
+A potential weakness of the model is that it uses only sex as a predictor, so it may miss important variation in voting behavior that is related to party identification, ideology, or other demographics.
+
+## Courage
+
+Courage focuses on estimating the model and interpreting the fitted parameters.
+
+```{r}
+#| label: courage-model
+#| cache: true
+#| message: false
+fit_nes <- multinom_reg(engine = "nnet") |>
+  fit(pres_vote ~ sex, data = nes_92)
+```
+
+```{r}
+#| label: courage-params
+#| cache: true
+#| message: false
+tidy_fit <- tidy(fit_nes, conf.int = TRUE)
+tidy_fit
+```
+
+```{r}
+#| label: courage-table
+#| message: false
+library(gt)
+
+tidy_fit |>
+  mutate(
+    estimate = round(estimate, 2),
+    std.error = round(std.error, 2),
+    conf.low = round(conf.low, 2),
+    conf.high = round(conf.high, 2),
+    p.value = round(p.value, 3)
+  ) |>
+  gt::gt() |>
+  gt::tab_header(
+    title = "Multinomial model estimates",
+    subtitle = "American National Election Studies, 1992"
+  ) |>
+  gt::fmt_number(columns = c(estimate, std.error, conf.low, conf.high), decimals = 2) |>
+  gt::cols_label(
+    y.level = "Outcome",
+    term = "Term",
+    estimate = "Estimate",
+    std.error = "SE",
+    conf.low = "Lower CI",
+    conf.high = "Upper CI",
+    p.value = "p-value"
+  )
+```
+
+### Exercise 1
+Courage means fitting a model that is appropriate for the data, interpreting the estimates carefully, and being willing to explain what the model does rather than hiding behind vague claims.
+
+### Exercise 2
+The model specification begins with `multinom_reg(engine = "nnet")`.
+
+### Exercise 3
+The fitted intercept-only model is built with `fit(pres_vote ~ 1, data = nes_92)`.
+
+### Exercise 4
+The Clinton intercept of 0.34 means that, relative to Bush and without any covariates, the log-odds of Clinton versus Bush are about 0.34.
+
+### Exercise 5
+The final model is fit with `fit(pres_vote ~ sex, data = nes_92)`.
+
+### Exercise 6
+The Perot sexMale estimate of 0.42 means that, relative to Bush, men have higher log-odds of Perot than women do.
+
+### Exercise 7
+The fitted object is assigned to `fit_nes` so the model can be reused for later analysis steps.
+
+### Exercise 8
+Caching the fitted model avoids recomputing it on every render and saves time.
+
+### Exercise 9
+The cached chunk creates an `analysis_cache/` directory next to the Quarto document.
+
+### Exercise 10
+The cache directory should be added to `.gitignore` so it does not get committed to GitHub.
+
+### Exercise 11
+The fitted model defines the data generating mechanism: two log-odds equations relative to Bush that translate into three probabilities summing to one for each voter.
+
+### Exercise 12
+The `tidy()` output provides confidence intervals for each parameter on the Bush-relative log-odds scale.
+
+### Exercise 13
+The table code above produces a polished summary of the fitted model parameters with a title, caption-like header, and rounded values.
+
+### Exercise 14
+A useful summary sentence is that the model uses a multinomial logit structure with separate Bush-relative log-odds equations for Clinton and Perot, and sex shifts those equations for men versus women.
+
+## Temperance
+
+Temperance turns the fitted model into answers on the outcome scale.
+
+```{r}
+#| label: temperance-setup
+#| message: false
+library(marginaleffects)
+```
+
+```{r}
+#| label: temp-preds
+#| cache: true
+#| message: false
+preds <- predictions(extract_fit_engine(fit_nes),
+                     newdata = data.frame(sex = c("Female", "Male"))) |>
+  as_tibble()
+preds
+```
+
+```{r}
+#| label: temp-comps
+#| cache: true
+#| message: false
+avg_comps <- avg_comparisons(extract_fit_engine(fit_nes), variables = "sex")
+avg_comps
+```
+
+```{r}
+#| label: temp-plot
+#| message: false
+preds |>
+  mutate(
+    group = factor(group, levels = c("Clinton", "Bush", "Perot")),
+    sex = factor(sex, levels = c("Female", "Male"))
+  ) |>
+  ggplot(aes(x = group, y = estimate, fill = sex)) +
+  geom_col(position = position_dodge(width = 0.8), width = 0.7) +
+  geom_errorbar(
+    aes(ymin = conf.low, ymax = conf.high, group = sex),
+    position = position_dodge(width = 0.8),
+    width = 0.2
+  ) +
+  scale_y_continuous(labels = scales::label_percent()) +
+  labs(
+    title = "Predicted 1992 vote probabilities by sex",
+    subtitle = "Women favor Clinton; men are more likely to back Perot",
+    x = NULL,
+    y = NULL,
+    fill = "Sex",
+    caption = "Source: American National Election Studies 1992 via primer.data::nes"
+  ) +
+  theme_minimal()
+```
+
+### Exercise 1
+The setup chunk now includes `library(marginaleffects)`.
+
+### Exercise 2
+The specific question is: what is the difference in the probability of voting for Perot between men and women in 1992?
+
+### Exercise 3
+The predictions chunk uses `predictions(extract_fit_engine(fit_nes), newdata = data.frame(sex = c("Female", "Male")))`.
+
+### Exercise 4
+The comparisons chunk uses `avg_comparisons(extract_fit_engine(fit_nes), variables = "sex")`.
+
+### Exercise 5
+The predictions tibble is saved as `preds`, then printed for further plotting.
+
+### Exercise 6
+The plot code above creates a grouped bar plot of predicted vote probabilities, with error bars showing the 95% intervals.
+
+### Exercise 7
+The final graphic chunk is the one that builds the main plot used for interpretation.
+
+### Exercise 8
+A final sentence for the summary paragraph could be: we estimate that men were about 8 percentage points more likely than women to vote for Perot, with a 95% interval that excludes zero.
+
+### Exercise 9
+The estimate could be wrong because the data are self-reported and the model uses only sex as a predictor, so it may miss other important drivers of vote choice.
+
+### Exercise 10
+The material is arranged so the graphic appears before the summary paragraph, and the `fit_nes` chunk comes before the graphic chunk.
+
+### Exercise 11
+Publishing the rendered Quarto document to GitHub Pages would require running `quarto publish gh-pages analysis.qmd` in the bash terminal.
+
+### Exercise 12
+The repository URL would be the GitHub Pages URL for the rendered document, which depends on the repository settings and the branch.
+
