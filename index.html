@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Copilot">
+
+<title>NES</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="analysis_files/libs/clipboard/clipboard.min.js"></script>
+<script src="analysis_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="analysis_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="analysis_files/libs/quarto-html/popper.min.js"></script>
+<script src="analysis_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="analysis_files/libs/quarto-html/anchor.min.js"></script>
+<link href="analysis_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="analysis_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="analysis_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="analysis_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="analysis_files/libs/bootstrap/bootstrap-44e27cc2c2155f11f991fb085d8e9b06.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">NES</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Copilot </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="wisdom" class="level2">
+<h2 class="anchored" data-anchor-id="wisdom">Wisdom</h2>
+<p>The goal is to understand how the 1992 presidential vote differed by sex.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,658 × 2
+   sex    pres_vote
+   &lt;chr&gt;  &lt;fct&gt;    
+ 1 Female Bush     
+ 2 Female Bush     
+ 3 Female Clinton  
+ 4 Male   Bush     
+ 5 Female Clinton  
+ 6 Female Clinton  
+ 7 Female Perot    
+ 8 Male   Bush     
+ 9 Female Bush     
+10 Male   Perot    
+# ℹ 1,648 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.2.1     ✔ readr     2.2.0
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.3     ✔ tibble    3.3.1
+✔ lubridate 1.9.5     ✔ tidyr     1.3.2
+✔ purrr     1.2.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors
+
+Attaching package: 'scales'
+
+
+The following object is masked from 'package:purrr':
+
+    discard
+
+
+The following object is masked from 'package:readr':
+
+    col_factor</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_files/figure-html/plot-sex-vote-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="exercise-1" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-1">Exercise 1</h3>
+<p>In my own words, Wisdom means starting with a clear question, identifying the relevant data, and using careful reasoning to connect the data to a useful answer without overclaiming.</p>
+</section>
+<section id="exercise-2" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-2">Exercise 2</h3>
+<p>A Preceptor Table is a simplified data table that includes only the units, the outcome, and the covariates needed to answer the question of interest.</p>
+</section>
+<section id="exercise-3" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-3">Exercise 3</h3>
+<p>The analysis tibble was built with the requested filtering, selection, missing-data removal, and recoding from party labels to candidate names.</p>
+</section>
+<section id="exercise-4" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-4">Exercise 4</h3>
+<p>The code above plots the share of each candidate’s vote within each sex and labels the y-axis as a percentage.</p>
+</section>
+<section id="exercise-5" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-5">Exercise 5</h3>
+<p>In general, a Preceptor Table has units, one or more outcomes, and one or more covariates. The units are the things being studied, the outcomes are the variables we want to predict, and the covariates are the characteristics we use to explain or compare them.</p>
+</section>
+<section id="exercise-6" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-6">Exercise 6</h3>
+<p>The units are the individual voters who cast a ballot for Clinton, Bush, or Perot in the 1992 election.</p>
+</section>
+<section id="exercise-7" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-7">Exercise 7</h3>
+<p>The outcome variable is the reported presidential vote, recorded as Clinton, Bush, or Perot.</p>
+</section>
+<section id="exercise-8" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-8">Exercise 8</h3>
+<p>A useful covariate would be party identification, because it often helps explain voting behavior.</p>
+</section>
+<section id="exercise-9" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-9">Exercise 9</h3>
+<p>There are no treatments in this problem; the analysis compares groups defined by sex rather than imposing an intervention.</p>
+</section>
+<section id="exercise-10" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-10">Exercise 10</h3>
+<p>The Preceptor Table refers to the moment of the 1992 election, when the vote was cast.</p>
+</section>
+<section id="exercise-11" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-11">Exercise 11</h3>
+<p>The Preceptor Table for this problem has one row for each voter who chose Clinton, Bush, or Perot, with the outcome equal to the vote choice and the covariate equal to sex.</p>
+</section>
+<section id="exercise-12" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-12">Exercise 12</h3>
+<p>The 1992 election was a three-way contest, and the patterns of voting by sex show that men and women reported different candidate preferences. Using data from the American National Election Studies, we examine whether the probability of voting for Perot differed between men and women in that election.</p>
+</section>
+</section>
+<section id="justice" class="level2">
+<h2 class="anchored" data-anchor-id="justice">Justice</h2>
+<p>Justice focuses on whether the data and the model are appropriate for making inferences about the population and the Preceptor Table.</p>
+<section id="exercise-1-1" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-1-1">Exercise 1</h3>
+<p>Validity means that the variables in the data really measure the concepts they are supposed to represent.</p>
+</section>
+<section id="exercise-2-1" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-2-1">Exercise 2</h3>
+<p>One reason validity might not hold is that the outcome variable is based on self-reported vote recall, which can be inaccurate.</p>
+</section>
+<section id="exercise-3-1" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-3-1">Exercise 3</h3>
+<p>A Population Table is a table of all the relevant unit/time combinations in the population, not just the sampled rows or the rows described by the question.</p>
+</section>
+<section id="exercise-4-1" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-4-1">Exercise 4</h3>
+<p>The rows are the individual voters in the 1992 presidential election, with one row for each voter in the population and the data sample.</p>
+</section>
+<section id="exercise-5-1" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-5-1">Exercise 5</h3>
+<p>Stability means that the relationship between the covariate and the outcome is similar across the relevant contexts and time periods.</p>
+</section>
+<section id="exercise-6-1" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-6-1">Exercise 6</h3>
+<p>Stability might not hold if the relationship between sex and vote choice changed across the election period or across different survey conditions.</p>
+</section>
+<section id="exercise-7-1" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-7-1">Exercise 7</h3>
+<p>Representativeness means that the data are a reasonable sample of the population so that conclusions about the population are credible.</p>
+</section>
+<section id="exercise-8-1" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-8-1">Exercise 8</h3>
+<p>Representativeness might not hold if the ANES respondents differ from the full electorate in important ways, such as turnout or willingness to participate.</p>
+</section>
+<section id="exercise-9-1" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-9-1">Exercise 9</h3>
+<p>Representativeness might also fail when the population and the Preceptor Table differ in composition, even if they share the same broad time frame.</p>
+</section>
+<section id="exercise-10-1" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-10-1">Exercise 10</h3>
+<p>Because the outcome has three unordered categories, the correct probability family is a multinomial distribution.</p>
+</section>
+<section id="exercise-11-1" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-11-1">Exercise 11</h3>
+<p>For a multinomial outcome, the link function is the multinomial logit link.</p>
+</section>
+<section id="exercise-12-1" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-12-1">Exercise 12</h3>
+<p>A potential weakness of the model is that it uses only sex as a predictor, so it may miss important variation in voting behavior that is related to party identification, ideology, or other demographics.</p>
+</section>
+</section>
+<section id="courage" class="level2">
+<h2 class="anchored" data-anchor-id="courage">Courage</h2>
+<p>Courage focuses on estimating the model and interpreting the fitted parameters.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 8
+  y.level term        estimate std.error statistic  p.value conf.low conf.high
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 Clinton (Intercept)    0.455    0.0747      6.10 1.08e- 9    0.309    0.602 
+2 Clinton sexMale       -0.255    0.111      -2.30 2.12e- 2   -0.473   -0.0381
+3 Perot   (Intercept)   -0.852    0.107      -7.97 1.54e-15   -1.06    -0.642 
+4 Perot   sexMale        0.420    0.144       2.91 3.56e- 3    0.138    0.703 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="ygkfjfsxnk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ygkfjfsxnk table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#ygkfjfsxnk thead, #ygkfjfsxnk tbody, #ygkfjfsxnk tfoot, #ygkfjfsxnk tr, #ygkfjfsxnk td, #ygkfjfsxnk th {
+  border-style: none;
+}
+
+#ygkfjfsxnk p {
+  margin: 0;
+  padding: 0;
+}
+
+#ygkfjfsxnk .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#ygkfjfsxnk .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#ygkfjfsxnk .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ygkfjfsxnk .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ygkfjfsxnk .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ygkfjfsxnk .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ygkfjfsxnk .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ygkfjfsxnk .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#ygkfjfsxnk .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#ygkfjfsxnk .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#ygkfjfsxnk .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#ygkfjfsxnk .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#ygkfjfsxnk .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#ygkfjfsxnk .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#ygkfjfsxnk .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ygkfjfsxnk .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#ygkfjfsxnk .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#ygkfjfsxnk .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#ygkfjfsxnk .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ygkfjfsxnk .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#ygkfjfsxnk .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#ygkfjfsxnk .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#ygkfjfsxnk .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ygkfjfsxnk .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#ygkfjfsxnk .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#ygkfjfsxnk .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ygkfjfsxnk .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ygkfjfsxnk .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#ygkfjfsxnk .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ygkfjfsxnk .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#ygkfjfsxnk .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ygkfjfsxnk .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ygkfjfsxnk .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ygkfjfsxnk .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ygkfjfsxnk .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ygkfjfsxnk .gt_left {
+  text-align: left;
+}
+
+#ygkfjfsxnk .gt_center {
+  text-align: center;
+}
+
+#ygkfjfsxnk .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ygkfjfsxnk .gt_font_normal {
+  font-weight: normal;
+}
+
+#ygkfjfsxnk .gt_font_bold {
+  font-weight: bold;
+}
+
+#ygkfjfsxnk .gt_font_italic {
+  font-style: italic;
+}
+
+#ygkfjfsxnk .gt_super {
+  font-size: 65%;
+}
+
+#ygkfjfsxnk .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#ygkfjfsxnk .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#ygkfjfsxnk .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#ygkfjfsxnk .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#ygkfjfsxnk .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#ygkfjfsxnk .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#ygkfjfsxnk .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#ygkfjfsxnk .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#ygkfjfsxnk div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_heading header">
+<td colspan="8" class="gt_heading gt_title gt_font_normal">Multinomial model estimates</td>
+</tr>
+<tr class="gt_heading even">
+<td colspan="8" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">American National Election Studies, 1992</td>
+</tr>
+<tr class="gt_col_headings header">
+<th id="y.level" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Outcome</th>
+<th id="term" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Term</th>
+<th id="estimate" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Estimate</th>
+<th id="std.error" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">SE</th>
+<th id="statistic" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">statistic</th>
+<th id="p.value" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">p-value</th>
+<th id="conf.low" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Lower CI</th>
+<th id="conf.high" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Upper CI</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="y.level">Clinton</td>
+<td class="gt_row gt_left" headers="term">(Intercept)</td>
+<td class="gt_row gt_right" headers="estimate">0.46</td>
+<td class="gt_row gt_right" headers="std.error">0.07</td>
+<td class="gt_row gt_right" headers="statistic">6.097689</td>
+<td class="gt_row gt_right" headers="p.value">0.000</td>
+<td class="gt_row gt_right" headers="conf.low">0.31</td>
+<td class="gt_row gt_right" headers="conf.high">0.60</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="y.level">Clinton</td>
+<td class="gt_row gt_left" headers="term">sexMale</td>
+<td class="gt_row gt_right" headers="estimate">−0.26</td>
+<td class="gt_row gt_right" headers="std.error">0.11</td>
+<td class="gt_row gt_right" headers="statistic">-2.304009</td>
+<td class="gt_row gt_right" headers="p.value">0.021</td>
+<td class="gt_row gt_right" headers="conf.low">−0.47</td>
+<td class="gt_row gt_right" headers="conf.high">−0.04</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="y.level">Perot</td>
+<td class="gt_row gt_left" headers="term">(Intercept)</td>
+<td class="gt_row gt_right" headers="estimate">−0.85</td>
+<td class="gt_row gt_right" headers="std.error">0.11</td>
+<td class="gt_row gt_right" headers="statistic">-7.973956</td>
+<td class="gt_row gt_right" headers="p.value">0.000</td>
+<td class="gt_row gt_right" headers="conf.low">−1.06</td>
+<td class="gt_row gt_right" headers="conf.high">−0.64</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="y.level">Perot</td>
+<td class="gt_row gt_left" headers="term">sexMale</td>
+<td class="gt_row gt_right" headers="estimate">0.42</td>
+<td class="gt_row gt_right" headers="std.error">0.14</td>
+<td class="gt_row gt_right" headers="statistic">2.914966</td>
+<td class="gt_row gt_right" headers="p.value">0.004</td>
+<td class="gt_row gt_right" headers="conf.low">0.14</td>
+<td class="gt_row gt_right" headers="conf.high">0.70</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<section id="exercise-1-2" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-1-2">Exercise 1</h3>
+<p>Courage means fitting a model that is appropriate for the data, interpreting the estimates carefully, and being willing to explain what the model does rather than hiding behind vague claims.</p>
+</section>
+<section id="exercise-2-2" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-2-2">Exercise 2</h3>
+<p>The model specification begins with <code>multinom_reg(engine = "nnet")</code>.</p>
+</section>
+<section id="exercise-3-2" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-3-2">Exercise 3</h3>
+<p>The fitted intercept-only model is built with <code>fit(pres_vote ~ 1, data = nes_92)</code>.</p>
+</section>
+<section id="exercise-4-2" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-4-2">Exercise 4</h3>
+<p>The Clinton intercept of 0.34 means that, relative to Bush and without any covariates, the log-odds of Clinton versus Bush are about 0.34.</p>
+</section>
+<section id="exercise-5-2" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-5-2">Exercise 5</h3>
+<p>The final model is fit with <code>fit(pres_vote ~ sex, data = nes_92)</code>.</p>
+</section>
+<section id="exercise-6-2" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-6-2">Exercise 6</h3>
+<p>The Perot sexMale estimate of 0.42 means that, relative to Bush, men have higher log-odds of Perot than women do.</p>
+</section>
+<section id="exercise-7-2" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-7-2">Exercise 7</h3>
+<p>The fitted object is assigned to <code>fit_nes</code> so the model can be reused for later analysis steps.</p>
+</section>
+<section id="exercise-8-2" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-8-2">Exercise 8</h3>
+<p>Caching the fitted model avoids recomputing it on every render and saves time.</p>
+</section>
+<section id="exercise-9-2" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-9-2">Exercise 9</h3>
+<p>The cached chunk creates an <code>analysis_cache/</code> directory next to the Quarto document.</p>
+</section>
+<section id="exercise-10-2" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-10-2">Exercise 10</h3>
+<p>The cache directory should be added to <code>.gitignore</code> so it does not get committed to GitHub.</p>
+</section>
+<section id="exercise-11-2" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-11-2">Exercise 11</h3>
+<p>The fitted model defines the data generating mechanism: two log-odds equations relative to Bush that translate into three probabilities summing to one for each voter.</p>
+</section>
+<section id="exercise-12-2" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-12-2">Exercise 12</h3>
+<p>The <code>tidy()</code> output provides confidence intervals for each parameter on the Bush-relative log-odds scale.</p>
+</section>
+<section id="exercise-13" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-13">Exercise 13</h3>
+<p>The table code above produces a polished summary of the fitted model parameters with a title, caption-like header, and rounded values.</p>
+</section>
+<section id="exercise-14" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-14">Exercise 14</h3>
+<p>A useful summary sentence is that the model uses a multinomial logit structure with separate Bush-relative log-odds equations for Clinton and Perot, and sex shifts those equations for men versus women.</p>
+</section>
+</section>
+<section id="temperance" class="level2">
+<h2 class="anchored" data-anchor-id="temperance">Temperance</h2>
+<p>Temperance turns the fitted model into answers on the outcome scale.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 11
+  rowid group  estimate std.error statistic   p.value s.value conf.low conf.high
+  &lt;int&gt; &lt;fct&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1     1 Bush      0.333    0.0159      21.0 1.57e- 97    322.    0.302     0.364
+2     2 Bush      0.348    0.0171      20.4 1.95e- 92    305.    0.315     0.382
+3     1 Clint…    0.525    0.0168      31.2 1.60e-213    707.    0.492     0.558
+4     2 Clint…    0.425    0.0177      24.0 2.66e-127    420.    0.391     0.460
+5     1 Perot     0.142    0.0118      12.1 1.51e- 33    109.    0.119     0.165
+6     2 Perot     0.226    0.0150      15.1 2.13e- 51    168.    0.197     0.256
+# ℹ 2 more variables: sex &lt;chr&gt;, df &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   Group Estimate Std. Error      z Pr(&gt;|z|)    S   2.5 %  97.5 %
+ Bush      0.0154     0.0233  0.659     0.51  1.0 -0.0303  0.0611
+ Clinton  -0.0996     0.0244 -4.073   &lt;0.001 14.4 -0.1475 -0.0516
+ Perot     0.0842     0.0191  4.415   &lt;0.001 16.6  0.0468  0.1215
+
+Term: sex
+Type: probs
+Comparison: Male - Female</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_files/figure-html/temp-plot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="exercise-1-3" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-1-3">Exercise 1</h3>
+<p>The setup chunk now includes <code>library(marginaleffects)</code>.</p>
+</section>
+<section id="exercise-2-3" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-2-3">Exercise 2</h3>
+<p>The specific question is: what is the difference in the probability of voting for Perot between men and women in 1992?</p>
+</section>
+<section id="exercise-3-3" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-3-3">Exercise 3</h3>
+<p>The predictions chunk uses <code>predictions(extract_fit_engine(fit_nes), newdata = data.frame(sex = c("Female", "Male")))</code>.</p>
+</section>
+<section id="exercise-4-3" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-4-3">Exercise 4</h3>
+<p>The comparisons chunk uses <code>avg_comparisons(extract_fit_engine(fit_nes), variables = "sex")</code>.</p>
+</section>
+<section id="exercise-5-3" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-5-3">Exercise 5</h3>
+<p>The predictions tibble is saved as <code>preds</code>, then printed for further plotting.</p>
+</section>
+<section id="exercise-6-3" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-6-3">Exercise 6</h3>
+<p>The plot code above creates a grouped bar plot of predicted vote probabilities, with error bars showing the 95% intervals.</p>
+</section>
+<section id="exercise-7-3" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-7-3">Exercise 7</h3>
+<p>The final graphic chunk is the one that builds the main plot used for interpretation.</p>
+</section>
+<section id="exercise-8-3" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-8-3">Exercise 8</h3>
+<p>A final sentence for the summary paragraph could be: we estimate that men were about 8 percentage points more likely than women to vote for Perot, with a 95% interval that excludes zero.</p>
+</section>
+<section id="exercise-9-3" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-9-3">Exercise 9</h3>
+<p>The estimate could be wrong because the data are self-reported and the model uses only sex as a predictor, so it may miss other important drivers of vote choice.</p>
+</section>
+<section id="exercise-10-3" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-10-3">Exercise 10</h3>
+<p>The material is arranged so the graphic appears before the summary paragraph, and the <code>fit_nes</code> chunk comes before the graphic chunk.</p>
+</section>
+<section id="exercise-11-3" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-11-3">Exercise 11</h3>
+<p>Publishing the rendered Quarto document to GitHub Pages would require running <code>quarto publish gh-pages analysis.qmd</code> in the bash terminal.</p>
+</section>
+<section id="exercise-12-3" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-12-3">Exercise 12</h3>
+<p>The repository URL would be the GitHub Pages URL for the rendered document, which depends on the repository settings and the branch.</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
